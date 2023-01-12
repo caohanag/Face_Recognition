@@ -5,15 +5,15 @@ import cv2 as cv
 # cv.imread; cv.imshow: cv-self-functions
 img = cv.imread('Zhou.jpg')
 
-# Coordinates坐标
+# Coordinates
 x, y, w, h = 100, 100, 100, 100
-# 绘制矩形
+# Drawing rectangles
 cv.rectangle(img, (x, y, x + w, y + h), color=(0, 0, 255), thickness=3)
 
-# 绘制圆形
+# Drawing circles
 cv.circle(img, center=(x + w, y + h), radius=100, color=(255, 0, 0), thickness=5)
 
-# 显示
+# display
 cv.imshow('re_img', img)
 
 # Converting an image to gray scale
@@ -38,7 +38,7 @@ print('original', img.shape)
 print('modified', resize_img.shape)
 
 
-# 检测函数
+# Detection functions
 def face_detect_demo():
     gary = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     face_detect = cv.CascadeClassifier('/Users/caohan/Anaconda/anaconda3/lib/python3.9/site-packages/cv2/data/haarcascade_frontalface_alt2.xml')  # 加载分类器，cv自带
@@ -48,7 +48,7 @@ def face_detect_demo():
     cv.imshow('result', img)
 
     img = cv.imread('Zhou.jpg')
-    # 建立检测函数
+    # Create detection functions
     face_detect_demo()
 
 

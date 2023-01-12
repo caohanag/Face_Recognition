@@ -4,25 +4,26 @@ from PIL import Image
 import numpy as np
 
 def getImageAndLabels(path):
-    # save face data 二维数组
+    # save face data arrays
     facesSamples = []
-    # save name data 二维数组
+    # save name data arrays
     ids = []
     # save image info
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
     # load recognizer
     face_detector = cv2.CascadeClassifier('/Users/caohan/Anaconda/anaconda3/lib/python3.9/site-packages/cv2/data/haarcascade_frontalface_alt2.xml')
-    # 遍历列表中图片
+    # list of images
     for imagePath in imagePaths:
-        # 打开图片， 灰度化有九种不同模式：1,L,P,RGB,RGBA,CMYK,YCbCr,I,F
-        PIL_img = Image.open(imagePath).convert('L') # L是灰度图像，每一个像素点变为0-255数值，颜色越深值越大
-        # 将图像转化为数组，黑白浅灰。向量化
+        # Open the image, there are nine different modes of greyscale: 1,L,P,RGB,RGBA,CMYK,YCbCr,I,F
+        # L is a grayscale image, each pixel becomes a value from 0-255, the darker the colour the larger the value
+        PIL_img = Image.open(imagePath).convert('L')
+        # Converting images to arrays, black and white and light grey. Vectorisation
         img_numpy = np.array(PIL_img, 'uint8')
         # get face Features
         faces = face_detector.detectMultiScale(img_numpy)
         # get each image ids and names
-        id = int(os.path.split(imagePath)[1].split('.')[0])  # 提取
-        # 预防无面容图片
+        id = int(os.path.split(imagePath)[1].split('.')[0])  # Extract
+        # Preventing faceless pictures
         for x, y, w, h in faces:
             ids.append(id)
             facesSamples.append(img_numpy[y:y+h, x:x+w])
@@ -40,7 +41,7 @@ if __name__ == '__main__':
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     # training
     recognizer.train(faces, np.array(ids))
-    # 面部信息和id被一一保存在文件里
+    # Facial information and ids are saved one by one in a file
     # save files
     recognizer.write('trainer/trainer.yml')
 
